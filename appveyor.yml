@@ -1,5 +1,9 @@
 version: 1.0.0
 skip_tags: true
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_informational_version: "{version}"
 before_build:
   - nuget restore
 build:
