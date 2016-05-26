@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/GuildfordBC/linq-spreadsheet/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/GuildfordBC/linq-spreadsheet</projectUrl>
+    <iconUrl>http://cdn.guildford.gov.uk/assets/favicon-32x32.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright Guildford Borough Council 2016</copyright>
+    <language>en-GB</language>
+    <dependencies>
+       <dependency id="GemBox.Spreadsheet" version="39.3.30.1163" />
+    </dependencies>
+  </metadata>
+</package>
