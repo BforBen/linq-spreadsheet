@@ -150,10 +150,13 @@ namespace GuildfordBoroughCouncil.Linq
                 }
             }
 
-            // Autofit columns
-            for (i = 0; i < ws.CalculateMaxUsedColumns(); i++)
+            if (ws.Rows.Count > 0)
             {
-                ws.Columns[i].AutoFit(1.5, ws.Rows[0], ws.Rows[ws.Rows.Count - 1]);
+                // Autofit columns
+                for (i = 0; i < ws.CalculateMaxUsedColumns(); i++)
+                {
+                    ws.Columns[i].AutoFit(1.5, ws.Rows[0], ws.Rows[ws.Rows.Count - 1]);
+                }
             }
 
             return ef;
