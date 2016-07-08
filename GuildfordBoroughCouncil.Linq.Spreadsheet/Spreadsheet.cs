@@ -12,7 +12,7 @@ namespace GuildfordBoroughCouncil.Linq
 {
     public static class Spreadsheet
     {
-        private static ExcelFile GenerateSpreadsheet<T>(IEnumerable<T> list = null, InformationProtectiveMarking.Distribution Distribution = InformationProtectiveMarking.Distribution.Internal)
+        private static ExcelFile GenerateSpreadsheet<T>(IEnumerable<T> list = null, InformationProtectiveMarking.Distribution Distribution = InformationProtectiveMarking.Distribution.Internal, string HeaderText = "")
         {
             SpreadsheetInfo.SetLicense(Properties.Settings.Default.GemBoxSpreadsheetLicenseKey);
             SpreadsheetInfo.FreeLimitReached += (object sender, FreeLimitEventArgs e) => { e.FreeLimitReachedAction = FreeLimitReachedAction.ContinueAsTrial; };
@@ -32,7 +32,7 @@ namespace GuildfordBoroughCouncil.Linq
 
             var hf = ws.HeadersFooters;
 
-            hf.FirstPage.Header.CenterSection.Content = "Asset list as at " + DateTime.Now.ToLongDateString();
+            hf.FirstPage.Header.CenterSection.Content = HeaderText;
             hf.DefaultPage.Header = hf.FirstPage.Header;
 
             hf.FirstPage.Footer.CenterSection.Append("Page ").Append(HeaderFooterFieldType.PageNumber).Append(" of ").Append(HeaderFooterFieldType.NumberOfPages);
@@ -87,7 +87,7 @@ namespace GuildfordBoroughCouncil.Linq
             HeaderStyle.Font.Color = Color.White;
             //HeaderStyle.Borders.SetBorders(MultipleBorders.Right | MultipleBorders.Top, Color.Black, LineStyle.Thin);
 
-            ws.Cells.GetSubrangeAbsolute(0, 0, 0, i - 1).Style = HeaderStyle;
+            ws.Cells.GetSubrangeAbsolute(0, 0, 0, Math.Max(i - 1, 0)).Style = HeaderStyle;
             // Freeze top row
             ws.Panes = new WorksheetPanes(PanesState.Frozen, 0, 1, "A2", PanePosition.BottomLeft);
 
@@ -162,21 +162,21 @@ namespace GuildfordBoroughCouncil.Linq
             return ef;
         }
 
-        public static ExcelFile GetSpreadsheet<T>(IEnumerable<T> list = null, string fileName = "report.ods")
+        public static ExcelFile GetSpreadsheet<T>(IEnumerable<T> list = null, string fileName = "report.ods", string HeaderText = "")
         {
-            return GenerateSpreadsheet(list);
+            return GenerateSpreadsheet(list, HeaderText: HeaderText);
         }
 
-        public static void AsSpreadsheet<T>(this HttpResponseBase httpResponse, IEnumerable<T> list = null, string fileName = "report.ods")
+        public static void AsSpreadsheet<T>(this HttpResponseBase httpResponse, IEnumerable<T> list = null, string fileName = "report.ods", string HeaderText = "")
         {
-            var ef = GenerateSpreadsheet(list);
+            var ef = GenerateSpreadsheet(list, HeaderText: HeaderText);
 
             ef.Save(httpResponse, fileName);
         }
 
-        public static void ToSpreadsheet<T>(this IEnumerable<T> list, string fileName = "report.ods")
+        public static void ToSpreadsheet<T>(this IEnumerable<T> list, string fileName = "report.ods", string HeaderText = "")
         {
-            var ef = GenerateSpreadsheet(list);
+            var ef = GenerateSpreadsheet(list, HeaderText: HeaderText);
             
             ef.Save(fileName);
         }
