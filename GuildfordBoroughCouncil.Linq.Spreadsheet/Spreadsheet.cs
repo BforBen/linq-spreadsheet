@@ -260,17 +260,19 @@ namespace GuildfordBoroughCouncil.Linq
 
                     foreach (var k in row.Keys)
                     {
-                        var value = row[k];
-
-                        var cell = ws.Cells[rowId, cellId];
-
-                        if (row[k].GetType().ToString().Contains("System.Int64"))
+                        if (row.ContainsKey(k))
                         {
-                            cell.Style = new CellStyle { NumberFormat = "0" };
+                            var value = row[k];
+
+                            var cell = ws.Cells[rowId, cellId];
+
+                            if (value != null && row[k].GetType().ToString().Contains("System.Int64"))
+                            {
+                                cell.Style = new CellStyle { NumberFormat = "0" };
+                            }
+
+                            cell.Value = value;
                         }
-
-                        cell.Value = value;
-
                         cellId++;
                     }
 
